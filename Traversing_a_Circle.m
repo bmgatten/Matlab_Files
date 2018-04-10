@@ -1,7 +1,7 @@
 %Set relevant parameters
 l = 1; %m
 r_w = 0.5; %m
-dt = .000001; %s (use .1, .5s later)
+dt = .01; %s (use .1, .5s later)
 
 %Set speeds
 wr = pi;%rad/s
@@ -19,6 +19,7 @@ xe = x;
 ye = y;
 
 %Determine the time to traverse the circle
+%?: Should we be simulating with wheel encoders or is this time based?
 R = l/2*(vl+vr)/(vr-vl); %Radius of the circle
 T_final = 2*pi*R/V; %s, Time to traverse the circle 
 %Simulate and trace the vehicle
