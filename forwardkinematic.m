@@ -7,19 +7,21 @@ V = (v_r+v_l)/2; %Forward Velocity
 w = (v_r-v_l)/l; %Rotational Velocity
 
 %% Integration of Forward Kinematics Technique
-%Calculate change in angle
-theta = theta+ dt*w;
-%Case1: No Rotation
-if (v_r-v_l)<.001 %Do we use euler's method?
-    x = V*dt*cos(theta)+x;
-    y = V*dt*sin(theta)+y;
-%Case 2: The car is rotating and translating
-else
+
+ %Case1: No Rotation
+ if (abs(v_r-v_l)<.01) %If the vehicle is moving straight. 
+     %euler's method
+     x = V*dt*cos(theta)+x;
+     y = V*dt*sin(theta)+y;
+ %Case 2: The car is rotating and translating
+ else
     %Calculate instantaneous distance from center of the car to the Icc
-    R = l/w*((v_l+v_r)/(v_r-v_l));
+    R = abs(l/2*((v_l+v_r)/(v_r-v_l)));
     Iccx = x-R*sin(theta); %horizontal position of center of rotation
     Iccy = y+R*cos(theta); %vertical position of center of rotation
-    x = (x-Iccx)*cos(w*dt)+(y-Iccy)*(-sin(w*dt))+Iccx; %Update horizontal position
+    x = (x-Iccx)*cos(w*dt)+(y-Iccy)*(-sin(w*dt))+ Iccx; %Update horizontal position
     y = (x-Iccx)*sin(w*dt)+(y-Iccy)*cos(w*dt) + Iccy;  %Update vertical position
 end
+%Calculate change in angle
+theta = theta+ dt*w;
 end
